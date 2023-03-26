@@ -1,4 +1,7 @@
 # HydroVisCal
+
+**Hydro**logy **Vis**ualization and **Cal**culation
+
 基于Python面向对象的 地球物理/水文气象/地理信息 常用计算及可视化。
 
 module以``HYDRO``_开头，目前包括
