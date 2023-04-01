@@ -17,7 +17,7 @@ class TrendDetector:
         assert method in ['linear', 'sen']
         self.method = method
 
-    def trendLinear1D(self, arr):
+    def trend1D(self, arr):
         if type(arr) != np.ndarray:
             arr = np.array(arr)
         assert len(arr.shape)==1
@@ -37,12 +37,11 @@ class TrendDetector:
         isFinite = np.isfinite(arr)
         dataX = dataX[isFinite]
         dataY = dataY[isFinite]
-        isNotNan = ~np.isnan(arr)
+        isNotNan = ~np.isnan(dataY)
         dataX = dataX[isNotNan]
         dataY = dataY[isNotNan]
         
         if self.method == 'linear':
-
             fit = np.polyfit(dataX, dataY, 1)
             model = np.poly1d(fit)
             df = pd.DataFrame(columns=['y', 'x'])
@@ -54,7 +53,7 @@ class TrendDetector:
             intercept = fit[1]
         elif self.method=='sen':
             _, pValue = kendalltau(dataX, dataY)
-            slope, intercept, _, _ = theilslopes(dataX, dataY)
+            slope, intercept, _, _ = theilslopes(dataY)
         return {'changeValue': slope*len(arr),
                 'mean'       : np.nanmean(dataY),
                 'changeRatio': (slope * len(arr)) / np.nanmean(dataY) * 100,
@@ -62,7 +61,7 @@ class TrendDetector:
                 'slope'      : slope,
                 'intercept'  : intercept}
         
-    def trendLinear3D(self, arr):
+    def trend3D(self, arr):
         """
         Args:
             arr (_type_): Please guarantee time-coord is the zero-th axis
@@ -84,7 +83,7 @@ class TrendDetector:
         for i in tqdm(range(NLat)):
             for j in range(NLon):
                 arr1D = arr[:,i,j]
-                resDict = self.trendLinear1D(arr1D)
+                resDict = self.trend1D(arr1D)
                 changeValue2D[i,j]  = resDict['changeValue']
                 mean2D[i,j]         = resDict['mean']
                 changeRatio2D[i,j]  = resDict['changeRatio']
