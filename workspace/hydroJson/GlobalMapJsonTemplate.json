@@ -1,0 +1,26 @@
+{
+  "dpi": 150,
+  "box_lw": 0.5,
+  "transform": "P",
+  "central_longitude": 0,
+  "facecolor": "none",
+  "set_global": true,
+  "has_stock_img": false,
+  "has_coastlines": true,
+  "coast_line_width": 0.25,
+  "has_land": false,
+  "has_ocean": false,
+  "extent": [
+    -180.0,
+    180.0,
+    -90.0,
+    90.0
+  ],
+  "stackImg": {
+    "remap": false,
+    "cmap_string": "viridis",
+    "cbar_limit": [],
+    "cbar_ticks": [],
+    "cbar_shrink_ticks": false
+  }
+}
