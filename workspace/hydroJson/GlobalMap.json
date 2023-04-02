@@ -1,0 +1,41 @@
+{
+  "dpi": 150,
+  "box_lw": 0.5,
+  "transform": "P",
+  "central_longitude": 0,
+  "facecolor": "none",
+  "set_global": true,
+  "has_stock_img": false,
+  "has_coastlines": true,
+  "coast_line_width": 0.25,
+  "has_land": false,
+  "has_ocean": false,
+  "extent": [
+    -180.0,
+    180.0,
+    -90.0,
+    90.0
+  ],
+  "stackImg": {
+    "remap": true,
+    "cmap_string": "viridis",
+    "cmap_pcs": 5,
+    "cbar_limit": [-1,4],
+    "cbar_ticks_params": [-1,4,11],
+    "cbar_shrink_ticks": false,
+    "has_colorbar": true,
+    "cbar_orientation": "V",
+    "vertical_paras": {
+      "pad": 0.015,
+      "width": 0.015,
+      "len": 0.6
+    },
+    "horizontal_paras": {
+      "pad": 0.02,
+      "width": 0.03,
+      "len": 0.6
+    },
+    "cbar_unit": "Unit ($unit$)",
+    "cbar_extend": "max"
+  }
+}
