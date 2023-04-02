@@ -3,8 +3,9 @@ import pandas as pd
 
 def LonCoords(start, end, resolution):
     """
-    给定起始和结束以及分辨率生成纬度，例如给了40,50,0.1,
-    则生成[40.05, .... 49.85, 49.95]共100个。
+    Given (start, end, resolution) to generate the latitude,
+    
+    e.g. given (40,50,0.1) can get [40.05, .... 49.85, 49.95] for a total of 100.
     """
     assert resolution>0, "resolution must be positive."
     if start > end:
@@ -20,8 +21,9 @@ def LonCoords(start, end, resolution):
 
 def LatCoords(start, end, resolution):
     """
-    给定起始和结束以及分辨率生成经度，例如给了30,20,0.1,
-    则生成[29.95, 29.85, ..., 20.15, 20.05]共100个。
+    Given (start, end, resolution) to generate the latitude,
+    
+    e.g. given (30,20,0.1) can get [29.95, 29.85, ..., 20.15, 20.05] for a total of 100.
     """
     assert resolution>0, "resolution must be positive."
     if start > end:
@@ -37,6 +39,8 @@ def LatCoords(start, end, resolution):
 
 def TimeCoords(start, end, resolution):
     """
-    Not Recommend.
+    Not recommend now.
     """
+    #TODO: This function could be better.
+    
     return pd.date_range(start=start, end=end, freq=resolution)

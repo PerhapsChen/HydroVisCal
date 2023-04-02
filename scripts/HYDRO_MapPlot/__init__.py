@@ -1,3 +1,3 @@
 __version__ = '1.0'
 
-from .BaseMap import genBaseMapJsonTemplate, BaseMap
+from .GeoMap import genGeoMapJson, GeoMap

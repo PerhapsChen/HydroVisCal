@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
-def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=False):
+def genGeoMapJson(outputJsonPath='./hydroJson/GeoMap.json', returnDict=False):
     """
     Summary:
     ---
@@ -17,7 +17,7 @@ def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=Fal
     
     Args:
     ---
-        outputJsonPath (str, optional): 输出path. Defaults to './hydroJson/GlobalMap.json'.
+        outputJsonPath (str, optional): 输出path. Defaults to './hydroJson/GeoMap.json'.
         returnDict (bool, optional): 是否返回字典. Defaults to False.
     """
     PARAMETERS = {
@@ -72,8 +72,8 @@ def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=Fal
         return PARAMETERS
     
     
-class GlobalMap:
-    def __init__(self, jsonPath='./hydroJson/GlobalMap.json'):
+class GeoMap:
+    def __init__(self, jsonPath='./hydroJson/GeoMap.json'):
         assert os.path.isfile(jsonPath), "Json file doesn't exist! "
         self.jsonPath = jsonPath
         with open(jsonPath) as f:
@@ -87,9 +87,9 @@ class GlobalMap:
         """
         go back to default json
         """
-        genGlobalMapJson(self.jsonPath)
+        genGeoMapJson(self.jsonPath)
         
-    def saveCurrentJson(self, outputJsonPath='./hydroJson/currentFromGlobalMap.json'):
+    def saveCurrentJson(self, outputJsonPath='./hydroJson/currentFromGeoMap.json'):
         if not os.path.exists(os.path.dirname(outputJsonPath)):
             os.mkdir(os.path.dirname(outputJsonPath))
             

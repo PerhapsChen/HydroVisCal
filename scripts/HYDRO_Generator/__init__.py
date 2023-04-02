@@ -1,3 +1,4 @@
 __version__ = '1.0'
 
-from .exampleGen import GenerateDataset
+from .CoordsGen import LatCoords, LonCoords, TimeCoords
+from .XarrayDsGen import genXarrayDS
