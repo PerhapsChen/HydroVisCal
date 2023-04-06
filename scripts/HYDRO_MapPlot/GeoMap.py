@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
-def genGeoMapJson(outputJsonPath='./hydroJson/GeoMap.json', returnDict=False):
+def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=False):
     """
     Summary:
     ---
@@ -17,7 +17,7 @@ def genGeoMapJson(outputJsonPath='./hydroJson/GeoMap.json', returnDict=False):
     
     Args:
     ---
-        outputJsonPath (str, optional): 输出path. Defaults to './hydroJson/GeoMap.json'.
+        outputJsonPath (str, optional): 输出path. Defaults to './hydroJson/GlobalMap.json'.
         returnDict (bool, optional): 是否返回字典. Defaults to False.
     """
     PARAMETERS = {
@@ -57,7 +57,41 @@ def genGeoMapJson(outputJsonPath='./hydroJson/GeoMap.json', returnDict=False):
                     },
                 'cbar_unit'         : 'Unit ($unit$)',
                 'cbar_extend'       : 'both',
-            }
+            },
+            
+        'stackSct'          :
+            {
+                'extent_pad'        : 5,
+                'remap'             : False,
+                'cmap_string'       : 'viridis',
+                'cmap_pcs'          : -1,
+                
+                'marker_size'       : 1,
+                'marker_style'      :'o',
+                'marker_alhpa'      : 1,
+                'marker_lw'         : 0,
+                'marker_edgecolor'  : 'k',
+                
+                'cbar_limit'        : [],
+                'cbar_ticks_params' : [],
+                'cbar_shrink_ticks' : False,
+                'has_colorbar'      : True, 
+                'cbar_orientation'  : 'V',
+                'vertical_paras'    : 
+                    {
+                        'pad'       : 0.015,
+                        'width'     : 0.015,
+                        'len'       : 0.6,
+                    },
+                'horizontal_paras' :
+                    {
+                        'pad'       : 0.02,
+                        'width'     : 0.03,
+                        'len'       : 0.6,
+                    },
+                'cbar_unit'         : 'Unit ($unit$)',
+                'cbar_extend'       : 'both',
+            },
     }
     
     if not os.path.exists(os.path.dirname(outputJsonPath)):
@@ -71,9 +105,8 @@ def genGeoMapJson(outputJsonPath='./hydroJson/GeoMap.json', returnDict=False):
     if returnDict:
         return PARAMETERS
     
-    
-class GeoMap:
-    def __init__(self, jsonPath='./hydroJson/GeoMap.json'):
+class GlobalMap:
+    def __init__(self, jsonPath='./hydroJson/GlobalMap.json'):
         assert os.path.isfile(jsonPath), "Json file doesn't exist! "
         self.jsonPath = jsonPath
         with open(jsonPath) as f:
@@ -87,9 +120,9 @@ class GeoMap:
         """
         go back to default json
         """
-        genGeoMapJson(self.jsonPath)
+        genGlobalMapJson(self.jsonPath)
         
-    def saveCurrentJson(self, outputJsonPath='./hydroJson/currentFromGeoMap.json'):
+    def saveCurrentJson(self, outputJsonPath='./hydroJson/currentFromGlobalMap.json'):
         if not os.path.exists(os.path.dirname(outputJsonPath)):
             os.mkdir(os.path.dirname(outputJsonPath))
             
@@ -98,6 +131,11 @@ class GeoMap:
         
         print("Current parameters has written to [{}]".format(outputJsonPath)) 
         
+    def listChinaExtent(self):
+        """
+        
+        """
+        return [70, 140, 15, 55]
         
     def baseMap(self):
         self.reloadJson()
@@ -134,7 +172,7 @@ class GeoMap:
         self.fig = fig
         self.ax = ax
     
-    def stackImage(self, data, lat, lon, zorder=0):
+    def stackImage(self, data, lat, lon, zorder=1):
         assert all(np.diff(lat) < 0), "Latitude is not descending!"
         assert len(data.shape)==2, "Only support 2D data, but given {}D".format(len(data.shape))
         assert data.shape[0]==len(lat) and data.shape[1]==len(lon),\
@@ -146,8 +184,7 @@ class GeoMap:
         else:
             cmap = plt.get_cmap(PARAS['cmap_string'], PARAS['cmap_pcs'])    
         
-        dx = np.diff(lon).mean() / 2
-        dy = np.diff(lat).mean() / 2
+        expad = PARAS['']
         extent = [max(np.min(lon) - dx, -179.99), 
                   min(np.max(lon) + dx, 179.99), 
                   max(np.min(lat) + dy, -89.99),
@@ -167,6 +204,91 @@ class GeoMap:
             vmax = np.nanmax(data)
             
         im.set_clim(vmin=vmin, vmax=vmax)
+        
+        # 如果需要绘制colorbar
+        if PARAS['has_colorbar']:
+            # 根据 cbar_ticks_params 参数确定colorbar的tick and label.
+            cbarTicksParams = PARAS['cbar_ticks_params']
+            assert (len(cbarTicksParams) in [0, 1, 2, 3]),\
+                "cbarTicksParams only support 0/1/2/3 paras input."
+            if not cbarTicksParams:
+                ticks = list(np.linspace(vmin, vmax, 6))
+            elif len(cbarTicksParams)==1:
+                ticks = list(np.linspace(vmin, vmax, cbarTicksParams[0]))
+            elif len(cbarTicksParams)==2:
+                ticks = list(np.linspace(cbarTicksParams[0], cbarTicksParams[1], 6))
+            else:
+                ticks = list(np.linspace(cbarTicksParams[0], cbarTicksParams[1], int(cbarTicksParams[2])))
+            
+            # 避免colobar两边ticks过于靠边
+            if PARAS['cbar_shrink_ticks']:
+                vmin = vmin - (ticks[1] - ticks[0]) / 2
+                vmax = vmax + (ticks[1] - ticks[0]) / 2
+
+            norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
+            pos = self.ax.get_position()
+            orientation = PARAS['cbar_orientation']
+            assert orientation in ['V', 'H'],\
+                "Orientation of colorbar only support 'V'(vertical) and 'H'(horizontal)."
+                
+            if orientation == 'V': # vertical
+                pad = PARAS['vertical_paras']['pad']
+                width = PARAS['vertical_paras']['width']
+                clen = PARAS['vertical_paras']['len']
+                cax = self.fig.add_axes([pos.xmax + pad, pos.ymin, width, (pos.ymax - pos.ymin)])
+                cbar_extend = PARAS['cbar_extend']
+                cbar = mpl.colorbar.ColorbarBase(cax, cmap=cmap, norm=norm, extend=cbar_extend, orientation='vertical')
+                cbar.ax.set_ylabel(PARAS['cbar_unit'])
+                
+            elif orientation == 'H': # horizontal
+                pad = PARAS['horizontal_paras']['pad']
+                width = PARAS['horizontal_paras']['width']
+                clen = PARAS['horizontal_paras']['len']
+                cax = self.fig.add_axes([pos.xmin + (pos.xmax - pos.xmin) * (1 - clen) / 2,
+                                         pos.ymin - pad - width, 
+                                         (pos.xmax - pos.xmin) * clen, 
+                                         width])
+                cbar_extend = PARAS['cbar_extend']
+                cbar = mpl.colorbar.ColorbarBase(cax, cmap=cmap, norm=norm, extend=cbar_extend, orientation='horizontal')
+                cbar.ax.get_xaxis().labelpad = 8
+                cbar.ax.set_xlabel(PARAS['cbar_unit'])
+            
+            cbar.set_ticks(ticks)
+            
+    def stackScatter(self, data, lat, lon, zorder=0):
+
+        assert len(data.shape)==1, "Only support 1D data, but given {}D".format(len(data.shape))
+        assert len(lat)==len(lon)==len(data), "Length of data, lon and lat is not equal!" 
+        
+        PARAS = self.paraDict['stackSct']
+        if PARAS['cmap_pcs'] == -1:
+            cmap = plt.get_cmap(PARAS['cmap_string'])
+        else:
+            cmap = plt.get_cmap(PARAS['cmap_string'], PARAS['cmap_pcs'])    
+        
+        dx = PARAS['extent_pad']
+        dy = PARAS['extent_pad']
+        extent = [max(np.min(lon) - dx, -179.99), 
+                  min(np.max(lon) + dx, 179.99), 
+                  max(np.min(lat) + dy, -89.99),
+                  min(np.max(lat) - dy, 89.99)]
+        if PARAS['remap']:
+            self.ax.set_extent(extent,crs=ccrs.PlateCarree())
+        
+        sct = self.ax.scatter(lon, lat, c=data, s=PARAS['marker_size'], marker=PARAS['marker_style'], 
+                              lw=PARAS['marker_lw'], edgecolor=PARAS['marker_edgecolor'],
+                              transform=ccrs.PlateCarree(), cmap=cmap, zorder=zorder)
+
+        # 确定绘图所用数据的范围
+        cbarLimit = PARAS['cbar_limit']
+        if cbarLimit:
+            vmin = cbarLimit[0]
+            vmax = cbarLimit[1]
+        else:
+            vmin = np.nanmin(data)
+            vmax = np.nanmax(data)
+            
+        sct.set_clim(vmin=vmin, vmax=vmax)
         
         # 如果需要绘制colorbar
         if PARAS['has_colorbar']:

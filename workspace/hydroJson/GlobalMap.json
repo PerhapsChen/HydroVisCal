@@ -17,11 +17,11 @@
     90.0
   ],
   "stackImg": {
-    "remap": true,
+    "remap": false,
     "cmap_string": "viridis",
-    "cmap_pcs": 5,
-    "cbar_limit": [-1,4],
-    "cbar_ticks_params": [-1,4,11],
+    "cmap_pcs": -1,
+    "cbar_limit": [],
+    "cbar_ticks_params": [],
     "cbar_shrink_ticks": false,
     "has_colorbar": true,
     "cbar_orientation": "V",
@@ -36,6 +36,34 @@
       "len": 0.6
     },
     "cbar_unit": "Unit ($unit$)",
-    "cbar_extend": "max"
+    "cbar_extend": "both"
+  },
+  "stackSct": {
+    "extent_pad": 5,
+    "remap": false,
+    "cmap_string": "viridis",
+    "cmap_pcs": -1,
+    "marker_size": 1,
+    "marker_style": "o",
+    "marker_alhpa": 1,
+    "marker_lw": 0,
+    "marker_edgecolor": "k",
+    "cbar_limit": [],
+    "cbar_ticks_params": [],
+    "cbar_shrink_ticks": false,
+    "has_colorbar": true,
+    "cbar_orientation": "V",
+    "vertical_paras": {
+      "pad": 0.015,
+      "width": 0.015,
+      "len": 0.6
+    },
+    "horizontal_paras": {
+      "pad": 0.02,
+      "width": 0.03,
+      "len": 0.6
+    },
+    "cbar_unit": "Unit ($unit$)",
+    "cbar_extend": "both"
   }
 }
