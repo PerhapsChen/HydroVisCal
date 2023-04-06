@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
-def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=False):
+def genGeoMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=False):
     """
     Summary:
     ---
@@ -105,7 +105,7 @@ def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=Fal
     if returnDict:
         return PARAMETERS
     
-class GlobalMap:
+class GeoMapPlot:
     def __init__(self, jsonPath='./hydroJson/GlobalMap.json'):
         assert os.path.isfile(jsonPath), "Json file doesn't exist! "
         self.jsonPath = jsonPath
@@ -120,7 +120,7 @@ class GlobalMap:
         """
         go back to default json
         """
-        genGlobalMapJson(self.jsonPath)
+        genGeoMapJson(self.jsonPath)
         
     def saveCurrentJson(self, outputJsonPath='./hydroJson/currentFromGlobalMap.json'):
         if not os.path.exists(os.path.dirname(outputJsonPath)):
