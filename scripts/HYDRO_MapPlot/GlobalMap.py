@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
-def genGeoMapJson(outputJsonPath='./hydroJson/GeoMap.json', returnDict=False):
+def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=False):
     """
     Summary:
     ---
@@ -17,7 +17,7 @@ def genGeoMapJson(outputJsonPath='./hydroJson/GeoMap.json', returnDict=False):
     
     Args:
     ---
-        outputJsonPath (str, optional): 输出path. Defaults to './hydroJson/GeoMap.json'.
+        outputJsonPath (str, optional): 输出path. Defaults to './hydroJson/GlobalMap.json'.
         returnDict (bool, optional): 是否返回字典. Defaults to False.
     """
     PARAMETERS = {
@@ -105,8 +105,8 @@ def genGeoMapJson(outputJsonPath='./hydroJson/GeoMap.json', returnDict=False):
     if returnDict:
         return PARAMETERS
     
-class GeoMapPlot:
-    def __init__(self, jsonPath='./hydroJson/GeoMap.json'):
+class GlobalMapPlot:
+    def __init__(self, jsonPath='./hydroJson/GlobalMap.json'):
         assert os.path.isfile(jsonPath), "Json file doesn't exist! "
         self.jsonPath = jsonPath
         with open(jsonPath) as f:
@@ -120,9 +120,9 @@ class GeoMapPlot:
         """
         go back to default json
         """
-        genGeoMapJson(self.jsonPath)
+        genGlobalMapJson(self.jsonPath)
         
-    def saveCurrentJson(self, outputJsonPath='./hydroJson/currentFromGeoMap.json'):
+    def saveCurrentJson(self, outputJsonPath='./hydroJson/currentFromGlobalMap.json'):
         if not os.path.exists(os.path.dirname(outputJsonPath)):
             os.mkdir(os.path.dirname(outputJsonPath))
             
@@ -256,7 +256,8 @@ class GeoMapPlot:
             cbar.set_ticks(ticks)
             
     def stackScatter(self, data, lat, lon, zorder=0):
-
+    
+        data = np.array(data)
         assert len(data.shape)==1, "Only support 1D data, but given {}D".format(len(data.shape))
         assert len(lat)==len(lon)==len(data), "Length of data, lon and lat is not equal!" 
         
