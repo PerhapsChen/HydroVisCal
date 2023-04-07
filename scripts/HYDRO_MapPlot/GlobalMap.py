@@ -183,12 +183,14 @@ class GlobalMapPlot:
             cmap = plt.get_cmap(PARAS['cmap_string'])
         else:
             cmap = plt.get_cmap(PARAS['cmap_string'], PARAS['cmap_pcs'])    
-        
-        expad = PARAS['']
+            
+        dx = np.diff(lon).mean() / 2
+        dy = np.diff(lat).mean() / 2
         extent = [max(np.min(lon) - dx, -179.99), 
                   min(np.max(lon) + dx, 179.99), 
                   max(np.min(lat) + dy, -89.99),
                   min(np.max(lat) - dy, 89.99)]
+        
         if PARAS['remap']:
             self.ax.set_extent(extent,crs=ccrs.PlateCarree())
         
