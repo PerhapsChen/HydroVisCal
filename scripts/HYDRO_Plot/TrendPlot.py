@@ -108,4 +108,3 @@ class TrendPlot:
         
         
         ax.legend(loc=1)
-        

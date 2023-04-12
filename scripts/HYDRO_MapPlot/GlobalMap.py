@@ -21,7 +21,8 @@ def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=Fal
         returnDict (bool, optional): 是否返回字典. Defaults to False.
     """
     PARAMETERS = {
-        'dpi'               : 150,     
+        'dpi'               : 200,    
+        'figsize'           : [8,5] ,
         'box_lw'            : 0.5,  
         'transform'         : 'P',
         'central_longitude' : 0,
@@ -32,7 +33,7 @@ def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=Fal
         'coast_line_width'  : 0.25,
         'has_land'          : False,
         'has_ocean'         : False,
-        'extent'            : [-180.0, 180.0, -90.0, 90.0],
+        'extent'            : [-180.001, 180.001, -90.0, 90.0],
         'stackImg'          :
             {
                 'remap'             : False,
@@ -141,7 +142,7 @@ class GlobalMapPlot:
         self.reloadJson()
         PARAS = self.paraDict
         
-        fig = plt.figure(dpi=PARAS['dpi'])
+        fig = plt.figure(dpi=PARAS['dpi'], figsize=PARAS['figsize'])
         assert PARAS['transform'] in ['P','M','R'], \
             "Projection only support ['P','M','R']"
         

@@ -1,7 +1,7 @@
 {
   "figsize": [
     8,
-    4
+    3
   ],
   "dpi": 200,
   "obs_marker": "o",
@@ -10,7 +10,7 @@
   "obs_line_style": "-",
   "obs_line_color": "k",
   "fit_marker": "^",
-  "fit_marker_size": 0.1,
+  "fit_marker_size": 1,
   "fit_line_width": 0.5,
   "fit_line_style": "--",
   "fit_line_color": "r"
