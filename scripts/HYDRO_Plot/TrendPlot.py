@@ -25,12 +25,28 @@ def genTrendPlotJson(outputJsonPath='./hydroJson/TrendPlot.json', returnDict=Fal
         "obs_line_width"    : 0.5,
         "obs_line_style"    : "-",
         "obs_line_color"    : "k",
+        "obs_label"         : "Observed",
         
         "fit_marker"        : "^",
         "fit_marker_size"   : 1,
         "fit_line_width"    : 0.5,
         "fit_line_style"    : "--",
         "fit_line_color"    : "r",
+        "fit_label"         : "Fitted",
+        
+        "x_label"           : "X Lable",
+        "y_label"           : "Y Lable",
+        
+        "x_lim"             : [],
+        "y_lim"             : [],
+        
+        
+        "has_legend"        : True,
+        "legend_loc"        : 1,
+        "legend_fontsize"   : 8,
+
+        "has_fit_text"      : True,
+        "text_string"       : "k = {:.2f}, p = {:.5f}",
     }
     
     if not os.path.exists(os.path.dirname(outputJsonPath)):
@@ -78,8 +94,8 @@ class TrendPlot:
         self.reloadJson()
         PARAS = self.paraDict
         
-        fig = plt.figure(figsize=PARAS['figsize'],dpi=PARAS['dpi'])
-        ax = fig.add_subplot(1, 1, 1)
+        self.fig = plt.figure(figsize=PARAS['figsize'],dpi=PARAS['dpi'])
+        self.ax = self.fig.add_subplot(1, 1, 1)
         # original line plot
         marker  = PARAS['obs_marker']
         ms      = PARAS['obs_marker_size']
@@ -87,7 +103,7 @@ class TrendPlot:
         lw      = PARAS['obs_line_width']
         color   = PARAS['obs_line_color']
         
-        ax.plot(x, y, marker=marker, ms=ms, ls=ls, color=color, lw=lw, label='x')
+        self.ax.plot(x, y, marker=marker, ms=ms, ls=ls, color=color, lw=lw, label=PARAS['obs_label'])
 
         
         # trend fit plot
@@ -103,8 +119,26 @@ class TrendPlot:
         lw      = PARAS['fit_line_width']
         color   = PARAS['fit_line_color']
 
-        ax.plot(x, fit_y, marker=marker, ms=ms, ls=ls, color=color, lw=lw, label='x')
+        self.ax.plot(x, fit_y, marker=marker, ms=ms, ls=ls, color=color, lw=lw, label=PARAS['fit_label'])
+        
+        if PARAS['x_lim']:
+            self.ax.set_xlim(PARAS['x_lim'])
+        if PARAS['y_lim']:
+            self.ax.set_ylim(PARAS['y_lim'])
+        else:
+            diff = np.nanmax(y) - np.nanmin(y)
+            self.ax.set_ylim([np.nanmin(y)-diff*0.1, np.nanmax(y)+diff*0.2])
+                    
+        if PARAS['x_label']:
+            self.ax.set_xlabel(PARAS['x_label'])
+        if PARAS['y_label']:
+            self.ax.set_ylabel(PARAS['y_label'])
         
         
-        
-        ax.legend(loc=1)
+        if PARAS['has_legend']:
+            self.ax.legend(loc=PARAS['legend_loc'], fontsize=PARAS['legend_fontsize'])
+            
+        if PARAS['has_fit_text']:
+            text_string = PARAS['text_string']
+            text_string = text_string.format(k, fitDict['pValue'])
+            self.ax.text(0.02, 0.95, text_string, transform=self.ax.transAxes, verticalalignment='center', horizontalalignment='left', fontsize=8)
