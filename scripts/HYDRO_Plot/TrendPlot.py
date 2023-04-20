@@ -39,6 +39,11 @@ def genTrendPlotJson(outputJsonPath='./hydroJson/TrendPlot.json', returnDict=Fal
         
         "x_lim"             : [],
         "y_lim"             : [],
+        "expand_top"        : 0.2,
+        "expand_bottom"     : 0.1,
+        
+        "x_tick"            : [],
+        "y_tick"            : [],
         
         
         "has_legend"        : True,
@@ -119,6 +124,7 @@ class TrendPlot:
         lw      = PARAS['fit_line_width']
         color   = PARAS['fit_line_color']
 
+        # fit line plot
         self.ax.plot(x, fit_y, marker=marker, ms=ms, ls=ls, color=color, lw=lw, label=PARAS['fit_label'])
         
         if PARAS['x_lim']:
@@ -127,17 +133,42 @@ class TrendPlot:
             self.ax.set_ylim(PARAS['y_lim'])
         else:
             diff = np.nanmax(y) - np.nanmin(y)
-            self.ax.set_ylim([np.nanmin(y)-diff*0.1, np.nanmax(y)+diff*0.2])
-                    
+            self.ax.set_ylim([np.nanmin(y)-diff*PARAS['expand_bottom'], np.nanmax(y)+diff*PARAS['expand_top']])
+        
+        # set labels 
         if PARAS['x_label']:
             self.ax.set_xlabel(PARAS['x_label'])
         if PARAS['y_label']:
             self.ax.set_ylabel(PARAS['y_label'])
         
         
+        # set legend
         if PARAS['has_legend']:
             self.ax.legend(loc=PARAS['legend_loc'], fontsize=PARAS['legend_fontsize'])
             
+        # set ticks
+        XTickParas = PARAS['x_tick']
+        if len(XTickParas) == 3:
+            self.ax.set_xticks(np.linspace(XTickParas[0], XTickParas[1], XTickParas[2]))
+        elif len(XTickParas) >= 4:
+            self.ax.set_xticks(XTickParas)
+        elif len(XTickParas) == 0:
+            pass
+        else:
+            print("Lenght of XTickParas is not valid!")
+        
+        YTickParas = PARAS['y_tick']
+        if len(YTickParas) == 3:
+            self.ax.set_yticks(np.linspace(YTickParas[0], YTickParas[1], YTickParas[2]))
+        elif len(YTickParas) >= 4:
+            self.ax.set_yticks(YTickParas)
+        elif len(YTickParas) == 0:
+            pass
+        else:
+            print("Lenght of YTickParas is not valid!")
+        
+            
+        # fit text
         if PARAS['has_fit_text']:
             text_string = PARAS['text_string']
             text_string = text_string.format(k, fitDict['pValue'])
