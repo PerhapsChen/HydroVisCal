@@ -3,15 +3,15 @@
     8,
     4
   ],
-  "dpi": 100,
+  "dpi": 200,
   "obs_marker": "o",
-  "obs_marker_size": 1,
+  "obs_marker_size": 2,
   "obs_line_width": 0.5,
   "obs_line_style": "-",
   "obs_line_color": "k",
   "obs_label": "Observed",
   "fit_marker": "^",
-  "fit_marker_size": 1,
+  "fit_marker_size": 2,
   "fit_line_width": 0.5,
   "fit_line_style": "--",
   "fit_line_color": "r",
@@ -28,5 +28,5 @@
   "legend_loc": 1,
   "legend_fontsize": 8,
   "has_fit_text": true,
-  "text_string": "k = {:.2f}, p = {:.5f}"
+  "text_string": "k = {:.2f}, p = {:.3g}"
 }
