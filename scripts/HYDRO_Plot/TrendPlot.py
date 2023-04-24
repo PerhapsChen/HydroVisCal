@@ -17,9 +17,6 @@ def genTrendPlotJson(outputJsonPath='./hydroJson/TrendPlot.json', returnDict=Fal
     Generate a json file of drawing parameters for easy adjustment
     """
     PARAMETERS = {
-        "figsize"           : [8,4],
-        "dpi"               : 200,
-        
         "obs_marker"        : "o",
         "obs_marker_size"   : 1,
         "obs_line_width"    : 0.5,
@@ -67,11 +64,15 @@ def genTrendPlotJson(outputJsonPath='./hydroJson/TrendPlot.json', returnDict=Fal
 
 
 class TrendPlot:
-    def __init__(self, jsonPath='./hydroJson/TrendPlot.json'):
+    """
+    该类必须需要传入一个ax对象
+    """
+    def __init__(self, ax, jsonPath='./hydroJson/TrendPlot.json'):
         assert os.path.isfile(jsonPath), "Json file doesn't exist! "
         self.jsonPath = jsonPath
         with open(jsonPath) as f:
             self.paraDict = json.load(f)
+        self.ax = ax
             
     def reloadJson(self):
         with open(self.jsonPath) as f:
@@ -99,8 +100,6 @@ class TrendPlot:
         self.reloadJson()
         PARAS = self.paraDict
         
-        self.fig = plt.figure(figsize=PARAS['figsize'],dpi=PARAS['dpi'])
-        self.ax = self.fig.add_subplot(1, 1, 1)
         # original line plot
         marker  = PARAS['obs_marker']
         ms      = PARAS['obs_marker_size']
@@ -173,3 +172,18 @@ class TrendPlot:
             text_string = PARAS['text_string']
             text_string = text_string.format(k, fitDict['pValue'])
             self.ax.text(0.02, 0.95, text_string, transform=self.ax.transAxes, verticalalignment='center', horizontalalignment='left', fontsize=8)
+
+
+def quickTrendPlot(x, y):
+    """
+    快速画出x,y的折线图，并给出拟合直线的图。其中x,y均为一维数据，若x为空，则默认为0,1,2,3...
+    """
+    if len(x)==0:
+        x = np.arange(0, len(y))
+    
+    fig = plt.figure(figsize=(8, 4), dpi=150)
+    ax = fig.add_subplot(111)
+    genTrendPlotJson('./hydroJson/quickTrendPlot.json', returnDict=False)
+    tp = TrendPlot(ax, './hydroJson/quickTrendPlot.json')
+    tp.plot(x, y)
+    
