@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../scripts')
+# sys.path.append('../scripts')
 
 import os
 import json

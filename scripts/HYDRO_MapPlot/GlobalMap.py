@@ -9,6 +9,11 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
+# import sys
+# sys.path.append('../')
+from HYDRO_Plot import ColorBarFromFig
+
+
 def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=False):
     """
     Summary:
@@ -38,11 +43,14 @@ def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=Fal
             {
                 'remap'             : False,
                 'cmap_string'       : 'viridis',
+                'cmap_path'         : '',
                 'cmap_pcs'          : -1,
-                'cbar_limit'        : [],
+                'cmap_reverse'      : False,
+                'cmap_input_pieces' : -1,
+                'cmap_limit'        : [],
+                'has_colorbar'      : True, 
                 'cbar_ticks_params' : [],
                 'cbar_shrink_ticks' : False,
-                'has_colorbar'      : True, 
                 'cbar_orientation'  : 'V',
                 'vertical_paras'    : 
                     {
@@ -64,8 +72,6 @@ def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=Fal
             {
                 'extent_pad'        : 5,
                 'remap'             : False,
-                'cmap_string'       : 'viridis',
-                'cmap_pcs'          : -1,
                 
                 'marker_size'       : 1,
                 'marker_style'      :'o',
@@ -73,11 +79,17 @@ def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=Fal
                 'marker_lw'         : 0,
                 'marker_edgecolor'  : 'k',
                 
-                'cbar_limit'        : [],
+                'cmap_string'       : 'viridis',
+                'cmap_path'         : '',
+                'cmap_pcs'          : -1,
+                'cmap_reverse'      : False,
+                'cmap_input_pieces' : -1,
+                'cmap_limit'        : [],
+                'has_colorbar'      : True, 
                 'cbar_ticks_params' : [],
                 'cbar_shrink_ticks' : False,
-                'has_colorbar'      : True, 
                 'cbar_orientation'  : 'V',
+            
                 'vertical_paras'    : 
                     {
                         'pad'       : 0.015,
@@ -179,12 +191,20 @@ class GlobalMapPlot:
         assert data.shape[0]==len(lat) and data.shape[1]==len(lon),\
             "Shape of lat [{}], lon[{}], data[{}] are not matched.".format(len(lat),len(lon),data.shape)
             
-        PARAS = self.paraDict['stackImg']
-        if PARAS['cmap_pcs'] == -1:
-            cmap = plt.get_cmap(PARAS['cmap_string'])
+        PARAS = self.paraDict['stackImg'] # 使用stackImg的参数
+        
+        if PARAS['cmap_path']:
+            pieces = PARAS['cmap_pcs']
+            reverse = PARAS['cmap_reverse']
+            input_pieces = None if PARAS['cmap_input_pieces']==-1 else PARAS['cmap_input_pieces']
+            acbar = ColorBarFromFig(PARAS['cmap_path'], pieces, reverse, input_pieces)
+            cmap = acbar.getColorBar()
         else:
-            cmap = plt.get_cmap(PARAS['cmap_string'], PARAS['cmap_pcs'])    
-            
+            if PARAS['cmap_pcs'] == -1:
+                cmap = plt.get_cmap(PARAS['cmap_string'])
+            else:
+                cmap = plt.get_cmap(PARAS['cmap_string'], PARAS['cmap_pcs'])   
+ 
         dx = np.diff(lon).mean() / 2
         dy = np.diff(lat).mean() / 2
         extent = [max(np.min(lon) - dx, -179.99), 
@@ -198,7 +218,7 @@ class GlobalMapPlot:
         im = self.ax.imshow(data, extent=extent, transform=ccrs.PlateCarree(), cmap=cmap, zorder=zorder)
 
         # 确定绘图所用数据的范围
-        cbarLimit = PARAS['cbar_limit']
+        cbarLimit = PARAS['cmap_limit']
         if cbarLimit:
             vmin = cbarLimit[0]
             vmax = cbarLimit[1]
@@ -265,10 +285,18 @@ class GlobalMapPlot:
         assert len(lat)==len(lon)==len(data), "Length of data, lon and lat is not equal!" 
         
         PARAS = self.paraDict['stackSct']
-        if PARAS['cmap_pcs'] == -1:
-            cmap = plt.get_cmap(PARAS['cmap_string'])
+        
+        if PARAS['cmap_path']:
+            pieces = PARAS['cmap_pcs']
+            reverse = PARAS['cmap_reverse']
+            input_pieces = PARAS['cmap_input_pieces']
+            acbar = ColorBarFromFig(PARAS['cmap_path'], pieces, reverse, input_pieces)
+            cmap = acbar.getColorBar()
         else:
-            cmap = plt.get_cmap(PARAS['cmap_string'], PARAS['cmap_pcs'])    
+            if PARAS['cmap_pcs'] == -1:
+                cmap = plt.get_cmap(PARAS['cmap_string'])
+            else:
+                cmap = plt.get_cmap(PARAS['cmap_string'], PARAS['cmap_pcs']) 
         
         dx = PARAS['extent_pad']
         dy = PARAS['extent_pad']
@@ -284,7 +312,7 @@ class GlobalMapPlot:
                               transform=ccrs.PlateCarree(), cmap=cmap, zorder=zorder)
 
         # 确定绘图所用数据的范围
-        cbarLimit = PARAS['cbar_limit']
+        cbarLimit = PARAS['cmap_limit']
         if cbarLimit:
             vmin = cbarLimit[0]
             vmax = cbarLimit[1]
