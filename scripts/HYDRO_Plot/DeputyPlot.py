@@ -13,7 +13,7 @@ import cartopy.feature as cfeature
 from HYDRO_Plot import ColorBarFromFig, genGlobalMapJson, GlobalMapPlot
     
 class DeputyPlot:
-    def __init__(self, fig, main_ax, jsonPath=None):
+    def __init__(self, fig, main_ax, jsonPath='./hydroJson/DeputyPlot.json'):
         self._main_ax = main_ax # 主图的axes引用对象
         self._fig = fig # 主图的figure引用对象
         
@@ -24,8 +24,10 @@ class DeputyPlot:
         self.mRT = (self.mainPos.x1, self.mainPos.y1)
         self.mLT = (self.mainPos.x0, self.mainPos.y1)
         self.mRB = (self.mainPos.x1, self.mainPos.y0)
-        if jsonPath is None:
-            self.genDeputyPlotJson()
+
+        # 如果json文件不存在，则生成默认的json文件，否则读取json文件
+        if not os.path.exists(jsonPath):
+            self.genDeputyPlotJson(jsonPath)
         else:
             self.jsonPath = jsonPath
             self.reloadJson()
