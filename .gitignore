@@ -4,3 +4,4 @@ scripts/**/__pycache__
 **/.ipynb_checkpoints
 disk_data
 workspace
+.history
