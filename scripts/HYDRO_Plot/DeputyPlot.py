@@ -2,16 +2,6 @@ import os
 import json
 import copy
 
-import numpy as np
-import xarray as xr
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-
-from HYDRO_Plot import ColorBarFromFig, genGlobalMapJson, GlobalMapPlot
-    
 class DeputyPlot:
     def __init__(self, fig, main_ax, jsonPath='./hydroJson/DeputyPlot.json'):
         self._main_ax = main_ax # 主图的axes引用对象
@@ -91,7 +81,7 @@ class DeputyPlot:
         """
         go back to default json
         """
-        genGlobalMapJson(self.jsonPath)
+        self.genDeputyPlotJson(self.jsonPath)
         
     def saveCurrentJson(self, outputJsonPath='./hydroJson/currentFromGlobalMap.json'):
         if not os.path.exists(os.path.dirname(outputJsonPath)):

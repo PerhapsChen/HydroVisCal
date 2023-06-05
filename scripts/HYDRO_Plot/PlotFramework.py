@@ -1,14 +1,5 @@
-import os
-import json
-import copy
-
-import numpy as np
-import xarray as xr
-import matplotlib as mpl
 import matplotlib.pyplot as plt
-
 import cartopy.crs as ccrs
-import cartopy.feature as cfeature
 
 class PlotFramework:
     def __init__(self, isGeo=False, proj=ccrs.PlateCarree()):
@@ -98,6 +89,6 @@ class PlotFramework:
 # pf.axs[3].plot([1,2,3],[1,2,3])
 # pf.addDeputyPlot(loc='Bottom',pad=0.05, xlen=1, ylen=0.2,start=0)
 # pf.axs[4].plot([1,2,3],[1,2,3])
-# pf.changeMainAxes(fw.axs[4])
+# pf.changeMainAxes(pf.axs[4])
 # pf.addDeputyPlot(loc='Right', pad=0.03, xlen=0.2, ylen=1.0,start=0)
 # pf.axs[5].scatter([1,2,3],[1,2,3])

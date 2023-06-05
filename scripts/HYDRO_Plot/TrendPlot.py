@@ -1,11 +1,10 @@
-import sys
+# import sys
 # sys.path.append('../scripts')
 
 import os
 import json
 
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 from HYDRO_Stats import TrendDetector
