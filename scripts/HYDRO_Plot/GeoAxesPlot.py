@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
-from HYDRO_Plot import ColorBarFromFig
+from HYDRO_Plot.ColorBarFromFig import ColorBarFromFig
 
 
 def genGeoAxesJson(outputJsonPath='./hydroJson/DefaultGeoAxes.json', returnDict=False):
@@ -131,7 +131,8 @@ class GeoAxesPlot:
         assert len(data.shape)==2, "Only support 2D data, but given {}D".format(len(data.shape))
         assert data.shape[0]==len(lat) and data.shape[1]==len(lon),\
             "Shape of lat [{}], lon[{}], data[{}] are not matched.".format(len(lat),len(lon),data.shape)
-            
+        
+        self.reloadJson()
         PARAS = self.paraDict['stack_Image'] # 使用stackImg的参数
         
         if type(cmap) == str:

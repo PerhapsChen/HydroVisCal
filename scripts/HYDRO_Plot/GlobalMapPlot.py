@@ -15,7 +15,7 @@ import cartopy.feature as cfeature
 
 # import sys
 # sys.path.append('../')
-from HYDRO_Plot import ColorBarFromFig
+from HYDRO_Plot.ColorBarFromFig import ColorBarFromFig
 
 
 def genGlobalMapJson(outputJsonPath='./hydroJson/GlobalMap.json', returnDict=False):
