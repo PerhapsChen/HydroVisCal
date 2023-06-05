@@ -119,19 +119,28 @@ class DeputyPlot:
                                          self.mLB[1] + P['ystart']*mYL, 
                                          mXL * P['xlen'], 
                                          mYL * P['ylen']])
+        # 副图在主图右边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为ystart（通常为0）
         elif loc == 'Right':
             self.ax = self.fig.add_axes([self.mRT[0] + P['xpad']*mXL, 
                                          self.mLB[1] + P['ystart']*mYL, 
                                          mXL * P['xlen'], 
                                          mYL * P['ylen']])
+        # 副图在主图上边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为xstart（通常为0）
         elif loc == 'Top':
             self.ax = self.fig.add_axes([self.mLB[0] + P['xstart']*mXL, 
                                          self.mLT[1] + P['ypad']*mYL, 
                                          mXL * P['xlen'], 
                                          mYL * P['ylen']])
+        # 副图在主图下边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为xstart（通常为0）
         elif loc == 'Bottom':
             self.ax = self.fig.add_axes([self.mLB[0] + P['xstart']*mXL, 
                                          self.mLB[1] - P['ypad']*mYL - P['ylen']*mYL, 
+                                         mXL * P['xlen'], 
+                                         mYL * P['ylen']])
+        # 副图在主图内部，起始位置为xstart, ystart, 宽度为xlen, 高度为ylen
+        elif loc == 'inside':
+            self.ax = self.fig.add_axes([self.mLB[0] + P['xstart']*mXL, 
+                                         self.mLB[1] + P['ystart']*mYL, 
                                          mXL * P['xlen'], 
                                          mYL * P['ylen']])
         else:
