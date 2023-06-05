@@ -36,7 +36,7 @@ def interpolate(arr, pcs):
 
 
 class ColorBarFromFig:
-    def __init__(self, path, piece=-1, reverse=False, inputPcs=None):
+    def __init__(self, path, piece=None, reverse=False, inputPcs=None):
         """
         将一张色带图片转换为colorbar对象，支持横向或竖向
         注意，如果是非连续色带，需要输入图片中有几种颜色
@@ -51,9 +51,9 @@ class ColorBarFromFig:
             inputPcs (_type_, optional): 输入的图片有多少段，如果是连续就不输入. Defaults to None.
         """
         self.path = path
-        self.piece = -1
-        self.reverse = False
-        self.inputPcs = None
+        self.piece = piece
+        self.reverse = reverse
+        self.inputPcs = inputPcs
 
         img = Image.open(path)
         arr = np.array(img)
@@ -71,7 +71,7 @@ class ColorBarFromFig:
         if inputPcs != None:
             ll = interpolate(ll, inputPcs)
 
-        if piece == -1:
+        if piece == None or piece == -1:
             res = ll
         elif piece in np.arange(1, 30):
             #inc = ll.shape[0]//piece
