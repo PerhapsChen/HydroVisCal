@@ -126,6 +126,37 @@ class GeoAxesPlot:
         self.ax.set_extent(tuple(PARAS['extent']), crs=ccrs.PlateCarree())
         plt.setp(self.ax.spines.values(), linewidth=PARAS['box_lw'])
     
+    def addLonLatTicks(self, lon_ticks=None, lat_ticks=None, 
+                       lon_grids=None, lat_grids=None,
+                       lat_pos='bottom', lon_pos='left',
+                       **kwargs):
+        from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+        if lon_ticks is not None:
+            self.ax.set_xticks(lon_ticks, crs=ccrs.PlateCarree())
+        if lat_ticks is not None:
+            self.ax.set_yticks(lat_ticks, crs=ccrs.PlateCarree())
+
+        if lat_pos=='bottom':
+            self.ax.xaxis.set_ticks_position('bottom')
+        elif lat_pos=='top':
+            self.ax.xaxis.set_ticks_position('top')
+        else:
+            raise ValueError("lat_pos must be 'bottom' or 'top', but given {}".format(lat_pos))
+        
+        if lon_pos=='left':
+            self.ax.yaxis.set_ticks_position('left')
+        elif lon_pos=='right':
+            self.ax.yaxis.set_ticks_position('right')
+        else:
+            raise ValueError("lon_pos must be 'left' or 'right', but given {}".format(lon_pos))
+        
+        lon_formatter = LongitudeFormatter(zero_direction_label=True)
+        lat_formatter = LatitudeFormatter()
+        
+        self.ax.xaxis.set_major_formatter(lon_formatter)
+        self.ax.yaxis.set_major_formatter(lat_formatter)
+        self.ax.gridlines(xlocs=lon_grids, ylocs=lat_grids, **kwargs)
+    
     def stackImage(self, data, lat, lon, cmap='viridis', cmappcs=None, vmin=None, vmax=None):
         assert all(np.diff(lat) < 0), "Latitude is not descending!"
         assert len(data.shape)==2, "Only support 2D data, but given {}D".format(len(data.shape))

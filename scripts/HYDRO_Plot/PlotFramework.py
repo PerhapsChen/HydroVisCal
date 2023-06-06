@@ -3,16 +3,13 @@ import cartopy.crs as ccrs
 
 class PlotFramework:
     def __init__(self,dpi=200):
-        '''
-        isGeo: 主图是否为地理坐标系
-        proj: 地图投影方式
-        '''
         self.fig = plt.figure(dpi=dpi)
         self.axs = []
 
     def addMainAxes(self, isGeo=False, proj=ccrs.PlateCarree()):
         '''
-        添加主图
+        isGeo: 主图是否为地理坐标系
+        proj: 地图投影方式
         '''
         if isGeo:
             self.main_ax = self.fig.add_axes([0,0,1,1], projection=proj)
