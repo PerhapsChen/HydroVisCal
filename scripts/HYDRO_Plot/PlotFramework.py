@@ -71,7 +71,7 @@ class PlotFramework:
                                          self.mXL * xlen, 
                                          self.mYL * ylen]))
         # 副图在主图内部，起始位置为xstart, ystart, 宽度为xlen, 高度为ylen
-        elif loc == 'inside':
+        elif loc == 'Inside':
             self.axs.append(self.fig.add_axes([self.mLB[0] + start[0]*self.mXL, 
                                          self.mLB[1] + start[1]*self.mYL, 
                                          self.mXL * xlen, 

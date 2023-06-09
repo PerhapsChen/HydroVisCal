@@ -200,7 +200,9 @@ class GeoAxesPlot:
                     cbarExtend='both', 
                     cbarUnit='Unit ($unit$)', 
                     cbarShrinkTicks=False,
-                    cbarOrientation='V'):
+                    cbarOrientation='V',
+                    cbarLabelSize=12,
+                    ):
         if tickNums==None:
             ticks = list(np.linspace(self.vmin, self.vmax, 6))
         elif type(tickNums)==int:
@@ -227,9 +229,10 @@ class GeoAxesPlot:
         elif cbarOrientation == 'H': # horizontal
             cbar = mpl.colorbar.ColorbarBase(cax, cmap=self.cmap, norm=norm, 
                                              extend=cbarExtend, orientation='horizontal')
-            cbar.ax.set_xlabel(cbarUnit)
+            cbar.ax.set_xlabel(cbarUnit, fontsize=cbarLabelSize)
         
         cbar.set_ticks(ticks)
+        cbar.ax.tick_params(labelsize=cbarLabelSize)
             
     # def stackScatter(self, data, lat, lon, zorder=0):
     
