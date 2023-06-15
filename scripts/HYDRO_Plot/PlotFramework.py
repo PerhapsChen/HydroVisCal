@@ -13,6 +13,8 @@ class PlotFramework:
         '''
         if isGeo:
             self.main_ax = self.fig.add_axes([0,0,1,1], projection=proj)
+            self.main_ax.set_extent([-180,180,90,-90])
+
         else:
             self.main_ax = self.fig.add_axes([0,0,1,1])
         self.axs.append(self.main_ax)
