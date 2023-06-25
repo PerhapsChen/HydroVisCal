@@ -82,3 +82,40 @@ class PlotFramework:
             print("Wrong loc parameter, please check")
         
         return self.axs[-1]
+    
+    def addDeputyPlot_Geo(self, loc, pad, xlen, ylen, start):
+        self.updateMainAxesInfo()
+        # 副图在主图左边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为ystart（通常为0）
+        if loc == 'Left': 
+            self.axs.append(self.fig.add_axes([self.mLB[0] - pad*self.mXL - xlen*self.mXL,
+                                         self.mLB[1] + start*self.mYL, 
+                                         self.mXL * xlen, 
+                                         self.mYL * ylen], projection=self.proj))
+        # 副图在主图右边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为ystart（通常为0）
+        elif loc == 'Right':
+            self.axs.append(self.fig.add_axes([self.mRT[0] + pad*self.mXL, 
+                                         self.mLB[1] + start*self.mYL, 
+                                         self.mXL * xlen, 
+                                         self.mYL * ylen], projection=self.proj))
+        # 副图在主图上边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为xstart（通常为0）
+        elif loc == 'Top':
+            self.axs.append(self.fig.add_axes([self.mLB[0] + start*self.mXL, 
+                                         self.mLT[1] + pad*self.mYL, 
+                                         self.mXL * xlen, 
+                                         self.mYL * ylen], projection=self.proj))
+        # 副图在主图下边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为xstart（通常为0）
+        elif loc == 'Bottom':
+            self.axs.append(self.fig.add_axes([self.mLB[0] + start*self.mXL, 
+                                         self.mLB[1] - pad*self.mYL - ylen*self.mYL, 
+                                         self.mXL * xlen, 
+                                         self.mYL * ylen], projection=self.proj))
+        # 副图在主图内部，起始位置为xstart, ystart, 宽度为xlen, 高度为ylen
+        elif loc == 'Inside':
+            self.axs.append(self.fig.add_axes([self.mLB[0] + start[0]*self.mXL, 
+                                         self.mLB[1] + start[1]*self.mYL, 
+                                         self.mXL * xlen, 
+                                         self.mYL * ylen], projection=self.proj))
+        else:
+            print("Wrong loc parameter, please check")
+        
+        return self.axs[-1]

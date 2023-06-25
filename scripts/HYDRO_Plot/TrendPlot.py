@@ -30,8 +30,8 @@ def genTrendPlotJson(outputJsonPath='./hydroJson/TrendPlot.json', returnDict=Fal
         "fit_line_color"    : "r",
         "fit_label"         : "Fitted",
         
-        "x_label"           : "X Lable",
-        "y_label"           : "Y Lable",
+        "x_label"           : "X Label",
+        "y_label"           : "Y Label",
         
         "x_lim"             : [],
         "y_lim"             : [],
@@ -173,12 +173,17 @@ class TrendPlot:
             self.ax.text(0.02, 0.95, text_string, transform=self.ax.transAxes, verticalalignment='center', horizontalalignment='left', fontsize=8)
 
 
-def quickTrendPlot(x, y):
+def quickTrendPlot(x, y=None):
     """
-    快速画出x,y的折线图，并给出拟合直线的图。其中x,y均为一维数据，若x为空，则默认为0,1,2,3...
+    快速画出x,y的折线图，并给出拟合直线的图。其中x,y均为一维数据，若y为空，则默认为0,1,2,3...
     """
-    if len(x)==0:
-        x = np.arange(0, len(y))
+    if y == None:
+        y = np.arange(0, len(x))
+        a = x
+        x = y
+        y = a
+        del a
+    assert len(x) == len(y), "Length of x and y must be equal!"
     
     fig = plt.figure(figsize=(8, 4), dpi=150)
     ax = fig.add_subplot(111)
