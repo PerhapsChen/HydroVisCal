@@ -19,17 +19,15 @@
 
 ## LonCoords
 
-#### 原型
+**原型及功能：**
 
 ```python
 def LonCoords(start, end, resolution)
 ```
 
-#### 功能
-
 给定开始和结束的纬度，以及分辨率，返回对应纬度序列
 
-#### 使用例子
+**例子：**
 
 ```python
 # import 
@@ -45,29 +43,25 @@ lons = LonCoords(40, 50, 0.1)
 
 同 `LonCoords`。
 
-## fromLatLonGetAreaMat
+## FromLatLonGetAreaMat
 
-#### 原型
+**原型及功能：**
 
 ```python
-def LonCoords(start, end, resolution)
+def FromLatLonGetAreaMat(lat, lon)
 ```
 
-#### 功能
+给定lat和lon序列，返回网格面积矩阵。
 
-给定开始和结束的纬度，以及分辨率，返回对应纬度序列
-
-#### 使用例子
+**例子：**
 
 ```python
 # import 
-from HYDRO_Plot.GridArea import fromLatLonGetAreaMat
+from HYDRO_Plot.GridArea import FromLatLonGetAreaMat
 from 
 
-Sij = fromLatLonGetAreaMat(lat, lon)
+Sij = FromLatLonGetAreaMat(lat, lon)
 ```
-
-## 
 
 
 
