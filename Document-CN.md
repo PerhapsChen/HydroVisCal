@@ -1,7 +1,7 @@
 # HydroVisCal
 项目地址 https://github.com/PerhapsChen/HydroVisCal
 
-?> `HydroVisCal` (**Hydro**logy **Vis**ualization & **Cal**culation) is a `Python` package maintained by CHEN Penghan based on `numpy`, `pandas`, `xarray`, `matplotlib`, `cartopy`, etc. 
+> `HydroVisCal` (**Hydro**logy **Vis**ualization & **Cal**culation) is a `Python` package maintained by CHEN Penghan based on `numpy`, `pandas`, `xarray`, `matplotlib`, `cartopy`, etc. 
 
 在科研计算中，经常会需要编写大量的计算和可视化的代码以达到我们期望的效果。例如，当我们想要画一幅折线图，需要调整各种绘图细节参数，这些参数可能分布在不同行的代码中，尤其是参数较多的时候并不是特别方便。更加泛用的代码能更显著提高我们的工作效率。基于因此痛点，编写了一系列类和函数，方便更高效的进行科研的计算和可视化，目前仍处在初步开发阶段。它们大部分采用数据和逻辑分离的方式，使用`json`管理参数，进而让我们的工程代码文件更加简洁，逻辑更加清晰。把更多的时间留给科学问题的思考，而不是繁琐的代码参数调整。在某些情况下，这些代码能够数倍提高工作效率。[Wait for translating]
 
