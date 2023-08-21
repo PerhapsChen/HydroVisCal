@@ -2,7 +2,7 @@ import numpy as np
 import gdal 
 from osgeo import osr
 
-def from2DimNumpyArray2Tiff(data, lat, lon, tiff_path):
+def From2DNumpyArrayToTiff(data, lat, lon, tiff_path):
     assert len(data.shape) == 2, "Shape of data must be 2D."
     xsize = len(lon)
     ysize = len(lat)
@@ -31,7 +31,7 @@ def from2DimNumpyArray2Tiff(data, lat, lon, tiff_path):
     dst_ds.GetRasterBand(1).WriteArray(data)
     dst_ds = None
 
-def fromTiff2NumpyArray(tiff_path, return_lat_lon=False):
+def FromTiffToNumpyArray(tiff_path, return_lat_lon=False):
     ds = gdal.Open(tiff_path)
     data = ds.GetRasterBand(1).ReadAsArray()
     if return_lat_lon:

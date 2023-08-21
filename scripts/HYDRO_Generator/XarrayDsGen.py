@@ -1,7 +1,7 @@
 import numpy as np
 import xarray as xr
 
-def genXarrayDS(data, name, time, lat, lon):
+def GenXarrayDS(data, name, time, lat, lon):
     """
     Given a 2D or 3D numpy array and its coordinate information, return the xarray dataset.
     """

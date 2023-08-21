@@ -1,6 +1,6 @@
 import numpy as np
 
-def fromLatLonGetAreaMat(lat, lon):
+def FromLatLonGetAreaMat(lat, lon):
     R = 6371.4e3
     lat_j_rad = np.deg2rad(lat)
     cos_j = np.cos(lat_j_rad)
