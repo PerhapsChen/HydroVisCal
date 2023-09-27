@@ -1,9 +1,9 @@
 # HydroVisCal
 项目地址 https://github.com/PerhapsChen/HydroVisCal
 
-> `HydroVisCal` (**Hydro**logy **Vis**ualization & **Cal**culation) is a `Python` package maintained by CHEN Penghan based on `numpy`, `pandas`, `xarray`, `matplotlib`, `cartopy`, etc. 
+## 项目简介
 
-在科研计算中，经常会需要编写大量的计算和可视化的代码以达到我们期望的效果。例如，当我们想要画一幅折线图，需要调整各种绘图细节参数，这些参数可能分布在不同行的代码中，尤其是参数较多的时候并不是特别方便。更加泛用的代码能更显著提高我们的工作效率。基于因此痛点，编写了一系列类和函数，方便更高效的进行科研的计算和可视化，目前仍处在初步开发阶段。它们大部分采用数据和逻辑分离的方式，使用`json`管理参数，进而让我们的工程代码文件更加简洁，逻辑更加清晰。把更多的时间留给科学问题的思考，而不是繁琐的代码参数调整。在某些情况下，这些代码能够数倍提高工作效率。[Wait for translating]
+**HydroVisCal**是一个用于地球科学（主要是水文、气象）计算和可视化的Python库。
 
 ## 模块简介
 
@@ -19,15 +19,17 @@
 
 ## LonCoords
 
-**原型及功能：**
+#### 原型
 
 ```python
 def LonCoords(start, end, resolution)
 ```
 
+#### 功能
+
 给定开始和结束的纬度，以及分辨率，返回对应纬度序列
 
-**例子：**
+#### 使用例子
 
 ```python
 # import 
@@ -45,23 +47,77 @@ lons = LonCoords(40, 50, 0.1)
 
 ## FromLatLonGetAreaMat
 
-**原型及功能：**
+#### 原型
 
 ```python
-def FromLatLonGetAreaMat(lat, lon)
+def FromLatLonGetAreaMat(latlst, lonlst)
 ```
 
-给定lat和lon序列，返回网格面积矩阵。
+#### 功能
 
-**例子：**
+给定经纬度序列，返回由经纬度序列组成矩阵的对应的网格面积，通常用于面积加权相关的计算。
+
+#### 使用例子
 
 ```python
 # import 
-from HYDRO_Plot.GridArea import FromLatLonGetAreaMat
-from 
+from HYDRO_Plot.GlobalGridInfo import FromLatLonGetAreaMat
 
-Sij = FromLatLonGetAreaMat(lat, lon)
+Sij = FromLatLonGetAreaMat(latList, lonList)
 ```
 
+## FromLatLonGetLandOrSea
 
+#### 原型
+
+```python
+def FromLatLonGetLandOrSea(latlst, lonlst, booType=True)
+```
+
+#### 功能
+
+给定经纬度序列，返回由经纬度序列组成矩阵的陆地海洋属性。
+
+- 当boolType为True(默认)时，返回的矩阵中，True代表陆地，False代表海洋
+- 当boolType为False时，返回的矩阵中，1代表陆地，NaN代表海洋，方便用于直接乘法计算。
+
+#### 使用例子
+
+```python
+# import 
+from HYDRO_Plot.GlobalGridInfo import FromLatLonGetLandOrSea
+
+isLand = FromLatLonGetLandOrSea(latList, lonList)
+```
+
+## RemoveSeaAsNan
+
+#### 原型
+
+```python
+def RemoveSeaAsNan(arr, latlst, lonlst)
+```
+
+#### 功能
+
+给定2D或3D的numpy数组，以及对应的经纬度序列，将移出海洋部分数值，设置为NaN。
+
+#### 使用例子
+
+```python
+# import 
+from HYDRO_Plot.Mask import RemoveSeaAsNan
+
+arr = RemoveSeaAsNan(arr, latList, lonList)
+```
+
+## RemoveLandAsNan
+
+类似`RemoveSeaAsNan`，移出陆地部分为NaN。
+
+
+
+---
+
+# HYDRO_Plot
 
