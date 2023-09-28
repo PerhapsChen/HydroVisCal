@@ -26,44 +26,6 @@ def genGeoAxesJson(outputJsonPath='./hydroJson/DefaultGeoAxes.json', returnDict=
             {
                 'remap'             : False,
             },
-            
-        # 'stack_Scatter'          :
-        #     {
-        #         'extent_pad'        : 5,
-        #         'remap'             : False,
-                
-        #         'marker_size'       : 1,
-        #         'marker_style'      :'o',
-        #         'marker_alhpa'      : 1,
-        #         'marker_lw'         : 0,
-        #         'marker_edgecolor'  : 'k',
-                
-        #         'cmap_string'       : 'viridis',
-        #         'cmap_path'         : '',
-        #         'cmap_pcs'          : -1,
-        #         'cmap_reverse'      : False,
-        #         'cmap_input_pieces' : -1,
-        #         'cmap_limit'        : [],
-        #         'has_colorbar'      : True, 
-        #         'cbar_ticks_params' : [],
-        #         'cbar_shrink_ticks' : False,
-        #         'cbar_orientation'  : 'V',
-            
-        #         'vertical_paras'    : 
-        #             {
-        #                 'pad'       : 0.015,
-        #                 'width'     : 0.015,
-        #                 'len'       : 0.6,
-        #             },
-        #         'horizontal_paras' :
-        #             {
-        #                 'pad'       : 0.02,
-        #                 'width'     : 0.03,
-        #                 'len'       : 0.6,
-        #             },
-        #         'cbar_unit'         : 'Unit ($unit$)',
-        #         'cbar_extend'       : 'both',
-        #     },
     }
     
     if not os.path.exists(os.path.dirname(outputJsonPath)):
