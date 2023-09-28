@@ -185,7 +185,7 @@ def quickTrendPlot(x, y=None):
         del a
     assert len(x) == len(y), "Length of x and y must be equal!"
     
-    fig = plt.figure(figsize=(8, 4), dpi=150)
+    fig = plt.figure(figsize=(8, 4), dpi=300)
     ax = fig.add_subplot(111)
     genTrendPlotJson('./hydroJson/quickTrendPlot.json', returnDict=False)
     tp = TrendPlot(ax, './hydroJson/quickTrendPlot.json')

@@ -73,11 +73,12 @@ class ColorBarFromFig:
 
         if piece == None or piece == -1:
             res = ll
-        elif piece in np.arange(1, 30):
+        elif piece in np.arange(1, 990):
             #inc = ll.shape[0]//piece
             idx = [int(i) for i in np.linspace(0, ll.shape[0]-1, piece)]
             res = ll[idx, :]
-
+        else:
+            raise Exception("piece should be in range [1, 990]")
         newcmp = ListedColormap(res, name='hydro')
         self.cmap = newcmp
         self.cmapArray = res
