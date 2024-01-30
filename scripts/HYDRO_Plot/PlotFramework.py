@@ -6,17 +6,17 @@ class PlotFramework:
         self.fig = plt.figure(dpi=dpi)
         self.axs = []
 
-    def addMainAxes(self, isGeo=False, proj=ccrs.PlateCarree()):
+    def addMainAxes(self, isGeo=False, proj=ccrs.PlateCarree(), **kwargs):
         '''
         isGeo: 主图是否为地理坐标系
         proj: 地图投影方式
         '''
         if isGeo:
-            self.main_ax = self.fig.add_axes([0,0,1,1], projection=proj)
+            self.main_ax = self.fig.add_axes([0,0,1,1], projection=proj, **kwargs)
             self.main_ax.set_extent([-180,180,90,-90])
 
         else:
-            self.main_ax = self.fig.add_axes([0,0,1,1])
+            self.main_ax = self.fig.add_axes([0,0,1,1], **kwargs)
         self.axs.append(self.main_ax)
         self.proj = proj
         self.updateMainAxesInfo()
@@ -46,38 +46,38 @@ class PlotFramework:
         self.main_ax = ax
         self.updateMainAxesInfo()
     
-    def addDeputyPlot(self, loc, pad, xlen, ylen, start):
+    def addDeputyPlot(self, loc, pad, xlen, ylen, start, project=None):
         self.updateMainAxesInfo()
         # 副图在主图左边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为ystart（通常为0）
         if loc == 'Left': 
             self.axs.append(self.fig.add_axes([self.mLB[0] - pad*self.mXL - xlen*self.mXL,
                                          self.mLB[1] + start*self.mYL, 
                                          self.mXL * xlen, 
-                                         self.mYL * ylen]))
+                                         self.mYL * ylen], projection=project))
         # 副图在主图右边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为ystart（通常为0）
         elif loc == 'Right':
             self.axs.append(self.fig.add_axes([self.mRT[0] + pad*self.mXL, 
                                          self.mLB[1] + start*self.mYL, 
                                          self.mXL * xlen, 
-                                         self.mYL * ylen]))
+                                         self.mYL * ylen], projection=project))
         # 副图在主图上边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为xstart（通常为0）
         elif loc == 'Top':
             self.axs.append(self.fig.add_axes([self.mLB[0] + start*self.mXL, 
                                          self.mLT[1] + pad*self.mYL, 
                                          self.mXL * xlen, 
-                                         self.mYL * ylen]))
+                                         self.mYL * ylen], projection=project))
         # 副图在主图下边，间隔pad, 宽度为xlen, 高度为ylen，起始位置为xstart（通常为0）
         elif loc == 'Bottom':
             self.axs.append(self.fig.add_axes([self.mLB[0] + start*self.mXL, 
                                          self.mLB[1] - pad*self.mYL - ylen*self.mYL, 
                                          self.mXL * xlen, 
-                                         self.mYL * ylen]))
+                                         self.mYL * ylen], projection=project))
         # 副图在主图内部，起始位置为xstart, ystart, 宽度为xlen, 高度为ylen
         elif loc == 'Inside':
             self.axs.append(self.fig.add_axes([self.mLB[0] + start[0]*self.mXL, 
                                          self.mLB[1] + start[1]*self.mYL, 
                                          self.mXL * xlen, 
-                                         self.mYL * ylen]))
+                                         self.mYL * ylen], projection=project))
         else:
             print("Wrong loc parameter, please check")
         

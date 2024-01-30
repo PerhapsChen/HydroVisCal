@@ -177,7 +177,7 @@ def quickTrendPlot(x, y=None):
     """
     快速画出x,y的折线图，并给出拟合直线的图。其中x,y均为一维数据，若y为空，则默认为0,1,2,3...
     """
-    if y == None:
+    if y is None:
         y = np.arange(0, len(x))
         a = x
         x = y

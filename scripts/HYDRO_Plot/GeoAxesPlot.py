@@ -164,6 +164,8 @@ class GeoAxesPlot:
                     cbarShrinkTicks=False,
                     cbarOrientation='V',
                     cbarLabelSize=12,
+                    cbarLineWidth=0.5,
+                    **kwargs
                     ):
         if tickNums==None:
             ticks = list(np.linspace(self.vmin, self.vmax, 6))
@@ -185,13 +187,15 @@ class GeoAxesPlot:
             
         if cbarOrientation == 'V': # vertical
             cbar = mpl.colorbar.ColorbarBase(cax, cmap=self.cmap, norm=norm, 
-                                             extend=cbarExtend, orientation='vertical')
+                                             extend=cbarExtend, orientation='vertical', **kwargs)
             cbar.ax.set_ylabel(cbarUnit)
+            cbar.outline.set_linewidth(cbarLineWidth)
             
         elif cbarOrientation == 'H': # horizontal
             cbar = mpl.colorbar.ColorbarBase(cax, cmap=self.cmap, norm=norm, 
-                                             extend=cbarExtend, orientation='horizontal')
+                                             extend=cbarExtend, orientation='horizontal', **kwargs)
             cbar.ax.set_xlabel(cbarUnit, fontsize=cbarLabelSize)
+            cbar.outline.set_linewidth(cbarLineWidth)
         
         cbar.set_ticks(ticks)
         cbar.ax.tick_params(labelsize=cbarLabelSize)

@@ -23,7 +23,7 @@ def From2DNumpyArrayToTiff(data, lat, lon, tiff_path):
     else:
         raise TypeError("Data type not supported.")
     
-    dst_ds = gdal.GetDriverByName('GTiff').Create(tiff_path, xsize, ysize, 1, etype=gdalType)
+    dst_ds = gdal.GetDriverByName('GTiff').Create(tiff_path, xsize, ysize, 1, gdalType)
     dst_ds.SetGeoTransform(geotransform)
     srs = osr.SpatialReference()
     srs.SetWellKnownGeogCS("WGS84")
