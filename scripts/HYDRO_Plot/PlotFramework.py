@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
+from HYDRO_Plot.GeoAxesPlot import genGeoAxesJson, GeoAxesPlot
 
 class PlotFramework:
     def __init__(self,dpi=200):
@@ -119,3 +120,30 @@ class PlotFramework:
             print("Wrong loc parameter, please check")
         
         return self.axs[-1]
+    
+    
+    def quick_map(self, lat, lon, data, cmap='hot_r', cmappcs=10, vmin=None, vmax=None, unit='Unit ($unit$)', **kwargs):
+        '''
+        快速绘制地图
+        '''
+        import os
+        import numpy as np
+        
+        ax = self.addMainAxes(isGeo=True, **kwargs)
+        
+        if not os.path.exists('hydroJson/quick_map.json'):
+            genGeoAxesJson('hydroJson/quick_map.json')
+        
+        if vmin == None and vmax == None:
+            vmin = np.nanpercentile(data, 1)
+            vmax = np.nanpercentile(data, 99)
+            
+        gp = GeoAxesPlot(ax, 'hydroJson/quick_map.json')
+        
+        gp.baseMap()
+        gp.stackImage(data, lat, lon, cmap, cmappcs, vmin, vmax)
+        
+        cax = self.addDeputyPlot('Right', 0.01, 0.03, 1.0, 0.0)
+        gp.addColorBar(cax, cmappcs+1, 'neither', unit, cbarLabelSize=9, **kwargs)
+        
+                
